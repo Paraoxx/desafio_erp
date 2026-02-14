@@ -1,19 +1,12 @@
 from dataclasses import dataclass
-from typing import List, Optional
-from decimal import Decimal
+from typing import List
 
 @dataclass
 class OrderItemDTO:
-    product_sku: str
+    product_id: int
     quantity: int
 
 @dataclass
 class CreateOrderDTO:
-    customer_cpf: str
+    customer_id: int
     items: List[OrderItemDTO]
-    
-@dataclass
-class UpdateOrderStatusDTO:
-    order_id: int
-    new_status: str
-    user_id: Optional[int] = None 
