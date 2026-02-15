@@ -2,7 +2,7 @@ from django.db import transaction
 from .models import Order, OrderItem, Product
 from .dtos import CreateOrderDTO
 
-class OrderService:
+class CreateOrderService:
     @transaction.atomic
     def create_order(self, dto: CreateOrderDTO) -> Order:
         # Travar os produtos no banco para concorrencia 

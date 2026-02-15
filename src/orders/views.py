@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import Customer, Product, Order
 from .serializers import CustomerSerializer, ProductSerializer, OrderSerializer
-from .services import OrderService
+from .services import CreateOrderService
 from .dtos import CreateOrderDTO, OrderItemDTO
 
 class CustomerViewSet(viewsets.ModelViewSet):
@@ -18,7 +18,6 @@ class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
 
     def create(self, request, *args, **kwargs):
-    
         try:
             customer_id = request.data.get('customer')
             items_data = request.data.get('items', [])
@@ -29,7 +28,8 @@ class OrderViewSet(viewsets.ModelViewSet):
             ]
             
             dto = CreateOrderDTO(customer_id=customer_id, items=item_dtos)
-            service = OrderService()
+            
+            service = CreateOrderService() 
             order = service.create_order(dto)
             
             serializer = self.get_serializer(order)
