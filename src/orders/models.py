@@ -6,7 +6,6 @@ from django.core.validators import MinValueValidator
 User = get_user_model()
 
 # Abstract Models 
-
 class SoftDeleteManager(models.Manager):
     def get_queryset(self):
         # Por padrão esconde os deletados

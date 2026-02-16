@@ -3,7 +3,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SEPARAÇÃO DE AMBIENTES (DEV, STAGING, PROD
+# SEPARAÇÃO DE AMBIENTES (DEV, STAGING, PROD)
 # As configurações abaixo garantem que o código rode perfeitamente em qualquer ambiente.
 
 # Chave secreta: em produção, o ambiente provem uma chave segura.
@@ -59,9 +59,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-
-# ==============================================================================
-# BANCO DE DADOS E CACHE (Dinâmicos via Variáveis de Ambiente)
 
 DATABASES = {
     'default': {
