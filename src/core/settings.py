@@ -3,9 +3,17 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# SEPARAÇÃO DE AMBIENTES (DEV, STAGING, PROD
+# As configurações abaixo garantem que o código rode perfeitamente em qualquer ambiente.
+
+# Chave secreta: em produção, o ambiente provem uma chave segura.
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-chave-secreta-de-desenvolvimento')
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+
+# DEBUG: Default seguro é False (Prod). Para dev, DEBUG=True no .env
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+
+# Hosts permitidos, puxa do ambiente ou localhost.
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -51,6 +59,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
+
+# ==============================================================================
+# BANCO DE DADOS E CACHE (Dinâmicos via Variáveis de Ambiente)
 
 DATABASES = {
     'default': {
