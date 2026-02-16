@@ -52,7 +52,7 @@ class ConcurrencyTestCase(TransactionTestCase):
                 # Fecha conexões de thread para evitar travamento do banco no teste
                 connection.close()
 
-        # Criar 2 threads simulando acessos exatamente ao mesmo tempo
+        # Cria 2 threads simulando acessos exatamente ao mesmo tempo
         t1 = threading.Thread(target=place_order)
         t2 = threading.Thread(target=place_order)
 
@@ -67,7 +67,7 @@ class ConcurrencyTestCase(TransactionTestCase):
 
         # VALIDAÇÕES TÉCNICAS:
         
-        # bloqueio (apenas 1 pedido criado)
+        # bloqueio 
         self.assertEqual(len(results), 1, "ERRO: Mais de um pedido foi criado para apenas 1 item em estoque!")
         
         # Garante que a segunda thread recebeu a exceção de estoque insuficiente

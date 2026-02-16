@@ -18,17 +18,26 @@ API desenvolvida para gestão de pedidos de alta performance, com foco em integr
 ### Passo a Passo
 
 1. **Clone o repositório:**
-   git clone [https://github.com/SEU_USUARIO/desafio_erp_api.git](https://github.com/SEU_USUARIO/desafio_erp_api.git)
-   cd desafio_erp_api
+   git clone git clone https://github.com/Paraoxx/desafio_erp.git
+   cd desafio_erp
 
 2. **Configure as variáveis de ambiente:**
 Certifique-se de que o arquivo .env na raiz do projeto contenha as credenciais configuradas no docker-compose.yml.
 
 3. **Suba a infraestrutura dos containers:**
+O projeto utiliza um script de inicialização (scripts/init_db.sql) para configurar automaticamente as permissões do banco de dados:
+
 docker compose up --build -d
 
 4. **Aplique as migrações do banco de dados:**
 docker compose run --rm api python manage.py migrate
+
+A API estará disponível em: http://localhost:8000/api/v1/
+
+5. **Banco de dados de teste**
+Utilize o comando abaixo para criar um cliente e produtos, com estoque inicial:
+
+docker compose run --rm api python manage.py seed_db
 
 A API estará disponível em: http://localhost:8000/api/v1/
 

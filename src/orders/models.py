@@ -88,7 +88,7 @@ class Order(BaseModel):
 
 
 class OrderItem(models.Model):
-    # Itens não precisam de soft delete individualmente, model simples para performance.
+    # Itens não precisam de soft delete individualmente, model simples para performance
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='order_items')
     quantity = models.PositiveIntegerField(validators=[MinValueValidator(1)])
