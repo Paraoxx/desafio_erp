@@ -65,3 +65,5 @@ Service Layer: Implementada para isolar a lógica de negócio das Views do Djang
 Atomicidade: Uso de transaction.atomic para assegurar que falhas parciais em pedidos com múltiplos itens não corrompam os dados do banco.
 
 Idempotência com Redis: Preparado para evitar o reprocessamento de requisições duplicadas.
+
+CI/CD: Integração contínua via GitHub Actions para validar cada novo commit.
