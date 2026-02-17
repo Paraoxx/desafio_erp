@@ -28,6 +28,10 @@ API REST desenvolvida para gestão de pedidos de alta performance, com foco em i
    cd desafio_erp
 
 2. **Configure as variáveis de ambiente:**
+Crie uma cópia do arquivo de exemplo .env.example e renomeie para .env na raiz do projeto.
+
+cp .env.example .env
+
 Certifique-se de que o arquivo .env na raiz do projeto contenha as credenciais configuradas no docker-compose.yml.
 
 3. **Suba a infraestrutura dos containers:**
