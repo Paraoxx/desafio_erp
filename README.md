@@ -63,14 +63,16 @@ docker compose run --rm api pytest orders/tests/test_atomicity.py
 docker compose run --rm api pytest --cov=orders
 
 8. **Estrutura das pastas**
+```
 src/
-├── core/             # Configurações do Django e Swagger
-├── orders/           # App principal (Negócio)
-│   ├── dtos/         # Camada de transporte de dados
-│   ├── services/     # O "Coração" do projeto (Regras de Negócio)
-│   ├── tests/        # Testes de Integração e Stress
-│   ├── signals.py    # Disparo de Eventos de Domínio
-│   └── views.py      # Viewsets e Actions customizadas
+├── core/          # Configurações do Django e Swagger
+└── orders/        # App principal (Negócio)
+    ├── dtos/      # Camada de transporte de dados
+    ├── services/  # Regras de Negócios
+    ├── tests/     # Testes de Integração e Stress
+    ├── signals.py # Disparo de Eventos de Domínio
+    └── views.py   # Viewsets e Actions customizadas
+```
 
 9. **Decisões Arquiteturais**
 **Consistência e Concorrência (Pessimistic Locking):**
