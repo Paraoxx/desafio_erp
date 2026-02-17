@@ -68,20 +68,33 @@ docker compose run --rm api pytest --cov=orders
 
 8. **Estrutura do Projeto**
 ```text
-src/
-├── core/              # Configurações do Django e Swagger
-└── orders/            # App principal (Negócio)
-    ├── migrations/    # Versionamento do banco de dados
-    ├── tests/         # Suíte de Testes (TDD, Concorrência, etc)
-    ├── dtos.py        # Objetos de Transferência de Dados (Isolamento)
-    ├── interfaces.py  # Contratos de abstração (SOLID)
-    ├── models.py      # Entidades do Banco de Dados
-    ├── repositories.py# Padrão Repository (Abstração do Banco)
-    ├── serializers.py # Validação e serialização (DRF)
-    ├── services.py    # O "Coração" do projeto (Casos de Uso/Negócio)
-    ├── signals.py     # Disparo de Eventos de Domínio
-    ├── urls.py        # Rotas da API
-    └── views.py       # Controladores REST (Viewsets)
+desafio_erp/
+├── .github/workflows/     # Pipeline de CI/CD (github actions)
+├── scripts/               # Scripts de inicialização do banco de dados 
+├── src/                   # Código fonte da aplicação
+│   ├── core/              # Configurações globais do Django e Swagger
+│   ├── orders/            # App principal 
+│   │   ├── management/    # Comandos customizados do django  
+│   │   ├── migrations/    # Versionamento do banco de dados
+│   │   ├── tests/         # Suíte de testes 
+│   │   ├── dtos.py        # Objetos de transferência de dados 
+│   │   ├── interfaces.py  # Contratos de abstração 
+│   │   ├── models.py      # Entidades do banco de dados
+│   │   ├── repositories.py# Padrão Repository 
+│   │   ├── serializers.py # Validação e serialização (DRF)
+│   │   ├── services.py    # Regras de negócio
+│   │   ├── signals.py     # Disparo de eventos de domínio
+│   │   ├── urls.py        # Rotas da API
+│   │   └── views.py       # Controladores REST 
+│   ├── manage.py          # Entrypoint do Django
+│   └── pytest.ini         # Configurações do ecossistema de testes
+├── .env.example           # Template de variáveis de ambiente
+├── .gitignore             # Arquivos ignorados pelo Git
+├── ARCHITECTURE.md        # Documentação de decisões técnicas
+├── docker-compose.yml     # Orquestração dos containers 
+├── Dockerfile             # Build da imagem da API
+├── README.md              # Documentação principal e instruções de uso
+└── requirements.txt       # Dependências do ecossistema Python
 ```
 
 9. **Decisões Arquiteturais**
