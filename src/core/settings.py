@@ -3,16 +3,8 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SEPARAÇÃO DE AMBIENTES (DEV, STAGING, PROD)
-# As configurações abaixo garantem que o código rode perfeitamente em qualquer ambiente.
-
-# Chave secreta: em produção, o ambiente provem uma chave segura.
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-chave-secreta-de-desenvolvimento')
-
-# DEBUG: Default seguro é False (Prod). Para dev, DEBUG=True no .env
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-
-# Hosts permitidos, puxa do ambiente ou localhost.
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 INSTALLED_APPS = [
@@ -25,6 +17,8 @@ INSTALLED_APPS = [
     
     # Third-party apps
     'rest_framework',
+    'django_filters',        
+    'drf_spectacular',      
     
     # Local apps
     'orders',
@@ -88,6 +82,49 @@ CACHES = {
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    },
+
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
+    ],
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'ERP Order Management API',
+    'DESCRIPTION': 'Módulo de gestão de pedidos - Teste Técnico Pleno',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'json': {
+            'format': '{"time": "%(asctime)s", "level": "%(levelname)s", "message": "%(message)s"}',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'json',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
 }
 
 AUTH_PASSWORD_VALIDATORS = [
