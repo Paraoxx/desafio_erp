@@ -25,3 +25,25 @@ Para evitar o alto acoplamento, comum no padrão MVC tradicional do Django e res
 
 ## 3. Qualidade e Testabilidade
 A separação de conceitos através do `OrderService` permitiu a criação de um teste automatizado utilizando a biblioteca `threading` do Python em conjunto com o `TransactionTestCase`. Este teste simula múltiplos acessos simultâneos batendo na API no mesmo instante, provando de forma empírica que as regras de negócio e os locks do banco de dados funcionam conforme o planejado.
+
+## 4. Fluxo de Dados 
+O ciclo de vida de uma requisição crítica (como a criação de um pedido) segue este fluxo unidirecional:
+
+**Request:** O cliente faz a chamada HTTP (POST) enviando o payload e o header Idempotency-Key.
+
+**Controller (View):** O DRF intercepta, verifica no redis se a chave de idempotência já existe (early return se existir), valida o formato dos dados via Serializer e os empacota em um DTO.
+
+**Service:** Recebe o DTO, abre a transaction.atomic, ordena os itens e aplica o select_for_update() no banco de dados.
+
+**Database:** Deduz o estoque, persiste os itens do pedido salvando o snapshot do preço e cria o histórico de status.
+
+**Response**: A transação do banco é concluída, o resultado é gravado no Redis e a API retorna o HTTP 201 ao cliente.
+
+## 5. Trade-offs 
+Eu priorizei a Consistência dos dados, o que gerou os seguintes trade-offs:
+
+**Pessimistic Locking vs. Throughput:** Ao travar a linha do banco de dados, enfileirei requisições simultaneas. Isso garante uma consistência absoluta no estoque, mas reduz o throughput máximo da API em cenários de extrema concorrência. Se o sistema exigisse alta disponibilidade acima da consistência, uma abordagem de Optimistic Locking ou mensageria assíncrona seria adotada.
+
+**Complexidade de Infraestrutura vs. Idempotência:** Eu queria garantir de não haver dupla cobrança, então introduzi o Redis na stack. Isso aumenta a complexidade de deploy, manutenção e custo de infraestrutura.
+
+**Soft Delete vs. Performance de Banco:** Manter o histórico de registros excluídos, usei deleted_at para aumenta o volume de dados armazenados ao longo do tempo e exige que todas as queries de leitura tenham filtros adicionais (WHERE deleted_at IS NULL), o que pode impactar a performance de queries não indexadas corretamente.
