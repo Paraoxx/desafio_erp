@@ -17,7 +17,7 @@ class ConcurrencyTestCase(TransactionTestCase):
             email="t@t.com", 
             phone="11999999999"
         )
-        # Produto com APENAS 1 unidade em estoque para forçar a disputa
+        # Produto com apenas 1 unidade em estoque para forçar a disputa
         self.product = Product.objects.create(
             sku="IPHONE15", 
             name="iPhone 15", 

@@ -10,11 +10,11 @@ class AtomicityTestCase(TestCase):
             cpf_cnpj="99988877766", 
             email="atom@teste.com"
         )
-        # Produtos COM estoque
+        # Produtos com estoque
         self.product_1 = Product.objects.create(sku="PROD-1", name="Produto 1", price=10.0, stock_quantity=10)
         self.product_2 = Product.objects.create(sku="PROD-2", name="Produto 2", price=20.0, stock_quantity=10)
         
-        # Produto SEM estoque 
+        # Produto sem estoque 
         self.product_3 = Product.objects.create(sku="PROD-3", name="Produto Falha", price=30.0, stock_quantity=0)
         
         self.service = CreateOrderService()
@@ -37,7 +37,7 @@ class AtomicityTestCase(TestCase):
         with self.assertRaises(ValueError):
             self.service.create_order(dto)
 
-        # Validações Finais 
+        # Validações finais 
         self.product_1.refresh_from_db()
         self.product_2.refresh_from_db()
 
